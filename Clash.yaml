@@ -66,23 +66,23 @@ use: &use
   # type: select
   type: url-test
   use:
-    - 订阅一
-    - 订阅二
+    - 自制
+    - 自制BPB
     # - 本地配置
 
 # 订阅链接
 # 对于订阅来说，path 为选填项，但建议启用
 # 本地配置可以只填 path
 proxy-providers:
-  订阅一:
+  自制:
     <<: *p
-    # path: ./proxy_provider/订阅一.yaml
-    url: "https://example.com/airport?type=clashmeta&protocol=shadowsocks&rule=default"
+    # path: ./proxy_provider/自制.yaml
+    url: "https://xiaoyu0416.419855159.workers.dev/sub"
 
-  订阅二:
+  自制BPB:
     <<: *p
     # path: ./proxy_provider/订阅二.yaml
-    url: "https://example.com/api/v1/client/subscribe?token=ilovechina"
+    url: "https://bpb-worker-panel001-dmn.pages.dev/sub/89b3cbba-e6ac-485a-9481-976a0415eab9?app=clash#BPB-Full-Normal"
 
   # 本地配置:
     # <<: *p
