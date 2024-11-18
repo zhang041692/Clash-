@@ -2,91 +2,91 @@
 # 版本 V1.12-241024
 # https://gist.github.com/liuran001/5ca84f7def53c70b554d3f765ff86a33
 # https://obdo.cc/meta
-# 作者: 笨蛋ovo (bdovo.cc)
-# Telegram: https://t.me/baka_not_baka
-# 关注我的 Telegram 频道谢谢喵 https://t.me/s/BDovo_Channel
+# 作者：笨蛋ovo (bdovo.cc)
+#电报：https://t.me/baka_not_baka
+#关注我的 Telegram 频道谢谢喵 https://t.me/s/BDovo_Channel
 # 修改自官方示例规则 https://wiki.metacubex.one/example/#meta
-# 转载请保留此注释
-# 尽量添加了较为详尽的注释，不理解的地方建议对照 虚空终端 (Clash Meta) Docs 进行理解
-# 虚空终端 (Clash Meta) Docs 地址: https://wiki.metacubex.one
-# 不理解的地方不要乱动，如果你是小白，请按下 `Ctrl + F` 搜索 `基础配置`，只修改此部分
+#转载请保留此注释
+# 尽量添加一些建议性的注释，不理解的地方对照虚空终端 (Clash Meta) Docs 进行理解
+# 虚空终端 (Clash Meta) 文档地址：https://wiki.metacubex.one
+#修改的位置不要乱动，如果你是小白，请按`Ctrl + F`搜索`基础配置`，仅此部分
 
 # true 是启用
 # false 是禁用
 
-# 分组
-pr:
+# 包
+公关：
   &pr {
-    type: select,
-    proxies:
+    类型：选择，
+    代理：
       [
         节点选择,
         香港,
         台湾,
-        日本,
+        日本、
         新加坡,
-        美国,
-        其它地区,
+        美国，
+        其他地区,
         全部节点,
-        自动选择,
-        DIRECT,
-      ],
+        自动选择，
+        直接的，
+      ]    ,
   }
-# 延迟检测 URL
-p: &p
-  type: http
-  # 自动更新订阅时间，单位为秒
-  interval: 3600
-  health-check:
-    enable: true
-    url: https://cp.cloudflare.com
-    # 节点连通性检测时间，单位为秒
+# 延迟检测URL
+：&p
+  类型：类型：http
+  #自动更新订阅时间，单位为秒#自动更新订阅时间，单位为秒
+  间隔：3600
+  健康检查：
+    启用：真
+    url   :     网址：https : //cp.cloudflare.com : //cp.cloudflare.com
+    #单位权益检测时间，单位为秒#单位权益检测时间，单位为秒
     间隔：300
-    # 节点超时延迟，单位为毫秒
-    timeout: 1000
+    # 节点超时延迟，单位为毫秒# 节点超时延迟，单位为毫秒
+    超时：1000
     # 节点自动切换差值，单位为毫秒
-    tolerance: 100
+    公差：100
 
 # 基础配置
-# --------------------------------------------------
-# 如果你是小白，那么你只需要修改分割线以内的内容
-# 其他部分保持不动即可
+#------------------------------------------------- -
+# 如果你是小白，那么你只需要修改分割线内的内容
+#其他部分保持不动即可
 
-# 也可以把分割线以内的内容粘贴到您使用代理工具的「覆写」功能，然后在覆写中进行修改
-# 使用覆写时可以直接将此配置文件作为订阅链接进行订阅
+# 也可以把修改分割线内的内容粘贴到您使用代理工具的「覆写」功能，然后在覆写中进行
+# 使用覆写时可以直接关注配置文件作为订阅链接进行订阅
 # https://ghp.ci/https://gist.githubusercontent.com/liuran001/5ca84f7def53c70b554d3f765ff86a33/raw/c1d33956db7097252b88a6c06ed76f32526747c4/config.yaml
 
-# 如果你需要使用大于两个机场，在下方 `use` 处添加 `订阅三` （名字可以自己取），然后在 `proxy-providers` 照例添加订阅链接即可
-# 反之，如果你只需要使用一个，那么将 `订阅二` 前添加 `#` 进行注释即可
+#例如你需要使用最大的两个机场，在下方`处添加`订阅三`（名字可以自己取），然后在`proxy-providers`照添加订阅链接即可
+#反之，如果你只需要使用一个，那么在`订阅二`前面添加`#`进行注释即可
 
-# 订阅名，记得修改成自己的
-# 添删订阅在这里和下方订阅链接依葫芦画瓢就行
-use: &use
-  # 如果不希望自动切换请将下面两行注释对调
-  # type: select
-  type: url-test
-  use:
-    - 自制
-    - 自制BPB
-    # - 本地配置
+#订阅名，记得修改成自己的
+#在这里添加删除订阅和底部订阅链接依葫芦画葫芦就行
+使用：使用： 使用：&使用
+  #如果不希望自动切换前台下面两行注释对调#如果不希望自动切换前台下面两行注释对调#如果不希望自动切换前台下面两行注释对调#如果不希望自动切换前台下面两行注释#如果不希望自动切换前台下面两行注释对调#如果不希望自动切换前台下面两行注释对调#如果不希望自动切换前台下面两行注释对调#如果不希望自动切换前台下面两行注释对调
+  # 类型：选择# 选择 类型：选择# 类型：# type: select# 类型：选择# 选择 类型：选择# 类型：# type: select
+  type type  : type :类型： url 测试:       type :类型： url 测试
+  用途：
+    -              - - - 自制
+    -              - - - 自制BPB
+    # - 本地配置# - 本地配置# - 本地配置# - 本地配置# - 本地配置# - 本地配置# - 本地配置# - 本地配置#
 
 # 订阅链接
-# 对于订阅来说，path 为选填项，但建议启用
-# 本地配置可以只填 path
-proxy-providers:
-  自制:
-    <<: *p
-    # path: ./proxy_provider/自制.yaml
-    url: "https://xiaoyu0416.419855159.workers.dev/sub"
+# 对于订阅者，路径为选填项，但建议启用
+# 本地配置可以只填路径
+代理成立：
+  自制：
+    << ： <<：<<：*p
+    # 路径：./proxy_provider/自制.yaml# 路径：./proxy_provider/自制.yaml# 路径：./proxy_provider/自制.yaml# 路径：./proxy_provider/自制.yaml# 路径：./proxy_provider/自制.yaml # 路径：./proxy_provider/自制.yaml# 路径：./proxy_provider/自制.yaml#路径：./proxy_provider/自制.yaml
+    url : "https://xiaoyu0416.419855159.workers.dev/sub"
 
   自制BPB:
-    <<: *p
-    # path: ./proxy_provider/订阅二.yaml
+    <<:             <<：<<：<<：*p
+    # 路径：./proxy_provider/订阅二.yaml# 路径：./proxy_provider/订阅二.yaml# 路径：./proxy_provider/订阅二.yaml# 路径：./proxy_provider/订阅二.yaml# 路径：./proxy_provider /订阅二.yaml# 路径: ./proxy_provider/订阅二.yaml#路径：./proxy_provider/订阅二.yaml# 路径: ./proxy_provider/订阅二.yaml# 路径：./proxy_provider/订阅二.yaml# 路径：./proxy_provider/订阅二.yaml# 路径：./proxy_provider/订阅二.yaml# 路径：./proxy_provider/订阅二.yaml# 路径：./proxy_provider/订阅二.yaml# 路径: ./proxy_provider/订阅二.yaml# 路径：./proxy_provider/订阅二.yaml# path: ./proxy_provider/订阅二.yaml
     url: "https://bpb-worker-panel001-dmn.pages.dev/sub/89b3cbba-e6ac-485a-9481-976a0415eab9?app=clash#BPB-Full-Normal"
 
-  # 本地配置:
-    # <<: *p
-    # path: ./proxy_provider/本地配置.yaml
+  # 本地配置：# 本地配置：# 本地配置：# 本地配置:# 本地配置：# 本地配置:# 本地配置：# 本地配置:# 本地配置：# 本地配置：# 本地配置：# 本地配置:# 本地配置：# 本地配置:# 本地配置：# 本地配置:
+    ＃<<：*p# <<: *p <<: *p <<: *p <<: *p
+    # 路径：./proxy_provider/本地配置.yaml# 路径：./proxy_provider/本地配置.yaml# 路径：./proxy_provider/本地配置.yaml# 路径: ./proxy_provider/本地配置.yaml# 路径：./proxy_provider/本地配置.yaml# 路径：./proxy_provider/本地配置.yaml# 路径：./proxy_provider/本地配置.yaml# path: ./proxy_provider/本地配置.yaml
 
 # 小白请不要继续随意修改以下设置
 # 若需修改请参阅文档 https://wiki.metacubex.one
@@ -94,22 +94,22 @@ proxy-providers:
 
 # 规则订阅
 rule-providers:
-  # 秋风广告拦截规则
-  # https://awavenue.top
-  # 由于 Anti-AD 误杀率高，本项目已在 1.11-241024 版本更换秋风广告规则
+  #秋风广告拦截规则#秋风广告拦截规则#秋风广告拦截规则#秋风广告拦截规则#秋风广告拦截规则#秋风广告拦截规则#秋风广告拦截规则# 秋风广告拦截规则
+  # https://awavenue.top# https://awavenue.top# https://awavenue.top# https://awavenue.top# https://awavenue.top# https://awavenue.top# https://awavenue.top# https://awavenue.top
+  #由于抗AD误杀率高，本项目已于1.11-241024更换版本秋风广告规则#由于抗AD误杀率高，本项目已于1.11-241024 版本更换秋风广告规则#由于抗AD误杀率高，本项目已于1.11-241024版本更换秋风广告规则# 由于 Anti-AD 误杀率高，本项目已在 1.11-241024 版本更换秋风广告规则
   AWAvenue-Ads:
-    type: http
-    behavior: domain
-    format: yaml
-    # path可为空(仅限clash.meta 1.15.0以上版本)
-    path: ./rule_provider/AWAvenue-Ads.yaml
+    type:         类型： 类型：http
+    behavior:         behavior: 行为：域
+    format:         格式： 格式：yaml
+    # path 解决空(仅限clash.meta 1.15.0以上版本)# path解决空(仅限clash.meta 1.15.0以上版本)# path 解决空(仅限clash.meta 1.15.0以上版本)# path可为空(仅限clash.meta 1.15.0以上版本)
+    path:         path: 路径：./rule_provider/AWAvenue-Ads.yaml
     url: "https://ghp.ci/https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/refs/heads/main/Filters/AWAvenue-Ads-Rule-Clash.yaml"
     interval: 600
 
-mode: rule
+mode: mode: 模式：规则
 # ipv6 支持
 ipv6: true
-log-level: info
+log-level: 日志级别：日志级别：信息
 # 允许局域网连接
 allow-lan: true
 # socks5/http 端口
