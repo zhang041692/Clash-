@@ -1,225 +1,367 @@
-## 代理集合（获取机场订阅链接内的所有节点）
-代理成立：
-  🛫 我的机场 1：
-    类型：http
-    ## 机场订阅链接，使用 Clash 链接
-    网址：“https://bpb-worker-panel001-dmn.pages.dev/sub/89b3cbba-e6ac-485a-9481-976a0415eab9?app=clash”
-    路径：./proxies/airport1.yaml
-    区间：86400
-    ## 筛选需要的节点，可有效断开路由器压力，支持正则表达式，不筛选可删除此配置项
-    过滤器：“(?i)港|hk|香港|香港|台|tw|台湾|日本|jp|日本|新|新加坡|新加坡|美|美国|美国|美国”
-    ##排除建议需要的节点，支持正则表达式配置，若不能排除可删除项目
-    排除过滤器：“高倍|×10”
-    健康检查：
-      启用：真
-      网址：https://www.gstatic.com/generate_204
-      间隔：600
-    覆盖：
-      ## 为节点名称添加固定邻居，如节点名称原为“香港节点”会变成“🛫 我的机场 1-香港节点”；推荐有多个机场时使用
-      附加出口：“🛫我的机场1-”
-      ## 为节点名称添加固定后缀，如节点原为“香港节点”会变成“香港节点-🛫我的机场1”；推荐有多个机场时使用
-      附加后缀：“-🛫我的机场1”
+# mihomo (Clash Meta) 懒人配置
+# 版本 V1.12-241024
+# https://gist.github.com/liuran001/5ca84f7def53c70b554d3f765ff86a33
+# https://obdo.cc/meta
+# 作者: 笨蛋ovo (bdovo.cc)
+# Telegram: https://t.me/baka_not_baka
+# 关注我的 Telegram 频道谢谢喵 https://t.me/s/BDovo_Channel
+# 修改自官方示例规则 https://wiki.metacubex.one/example/#meta
+# 转载请保留此注释
+# 尽量添加了较为详尽的注释，不理解的地方建议对照 虚空终端 (Clash Meta) Docs 进行理解
+# 虚空终端 (Clash Meta) Docs 地址: https://wiki.metacubex.one
+# 不理解的地方不要乱动，如果你是小白，请按下 `Ctrl + F` 搜索 `基础配置`，只修改此部分
 
-  🛫 我的机场2：
-    类型：http
-    网址：“https://xiaoyu0416.419855159.workers.dev/sub=clash”
-    路径：./proxies/airport2.yaml
-    区间：86400
-    过滤器：“(?i)港|hk|香港|香港|台|tw|台湾|日本|jp|日本|新|新加坡|新加坡|美|美国|美国|美国”
-    排除过滤器：“高倍|×10”
-    健康检查：
-      启用：真
-      网址：https://www.gstatic.com/generate_204
-      间隔：600
-    覆盖：
-      ## 为节点名称添加固定邻居，如节点名称原为“香港节点”会变成“🛫我的机场 2-香港节点”；推荐有多个机场时使用
-      附加出口：“🛫我的机场2-”
-      ## 为节点名称添加固定后缀，如节点原为“香港节点”会变成“香港节点-🛫我的机场2”；推荐有多个机场时使用## 为节点名称添加固定后缀，如节点原为“香港节点”会变成“香港节点-🛫我的机场2”；推荐有多个机场时使用
-      附加后缀：“-🛫我的机场2”
+# true 是启用
+# false 是禁用
 
-##单个出站代理节点（以vless为例）
-代理：
-  -名称:            -名称: -名称: -名称: 🆓免费节点: 🆓免费节点: -名称: 🆓免费节点: 🆓免费节点
-    类型：无v
-    服务器：example.com
-    端口：443
-    uuid uuid uuid uuid  : { uuid : { uuid }  }  : { uuid : { uuid }  } : { uuid : { uuid }   }  : {          uuid : { uuid }     }
-    网络：ws
-    ls：正确
-    UDP：假
-    sni：example.com
-    客户端指纹：镀铬
-    ws-选项：
-      路径：“/?ed=2048”
-      标题：
-        域名：example.com
+# 分组
+pr:
+  &pr {
+    type: select,
+    proxies:
+      [
+        节点选择,
+        香港,
+        台湾,
+        日本,
+        新加坡,
+        美国,
+        其它地区,
+        全部节点,
+        自动选择,
+        DIRECT,
+      ],
+  }
+# 延迟检测 URL
+p: &p
+  type: http
+  # 自动更新订阅时间，单位为秒
+  interval: 3600
+  health-check:
+    enable: true
+    url: https://cp.cloudflare.com
+    # 节点连通性检测时间，单位为秒
+    间隔：300
+    # 节点超时延迟，单位为毫秒
+    timeout: 1000
+    # 节点自动切换差值，单位为毫秒
+    tolerance: 100
 
-## 组策略
-代理组：
-  ## 手动选择国家或地区节点；根据“国家或地区策略组”名称对“代理”值进行增删改，须一对应## 手动选择国家或地区节点；根据“国家或地区策略组”名称对“代理”值进行增删改，须一对应##手动选择国家或地区节点；根据“国家或地区策略组”名称对“代理”值进行增删改，须一对应##手动选择国家或地区节点；根据《国家或地区政策组》名称对“代理”值进行增减修改，须一对应## 手动选择国家或地区节点；根据“国家或地区策略组”名称对“代理”值进行增删改，须一对应## 手动选择国家或地区节点；根据“国家或地区策略组”名称对“代理”值进行增删改，须一对应##手动选择国家或地区节点；根据“国家或地区策略组”名称对“代理”值进行增删改，须一对应##手动选择国家或地区节点；根据“国家或地区政策组”名称对“代理”值进行增减修改，须一对应
-  - { name  - { name  - { name - { name : - { name : 🚀 节点选择, type : select , proxies : [ 🇭🇰香港节点, 🇹🇼台湾节点, 🇯🇵日本节点, 🇸🇬新加坡节点, 🇺🇸美国节点, 🆓免费节点] } ,类型：选择，代理：[ 🇭🇰香港节点, 🇹🇼台湾节点, 🇯🇵日本节点, 🇸🇬新加坡节点, 🇺🇸美国节点, 🆓免费节点]}: - { name : 🚀 节点选择, type : select , proxies : [ 🇭🇰香港节点, 🇹🇼台湾节点, 🇯🇵日本节点, 🇸🇬新加坡节点, 🇺🇸美国节点, 🆓节点] } , type : select , proxies : [ 🇭🇰免费香港节点, 🇹 🇼台湾节点, 🇯🇵日本节点, 🇸🇬新加坡节点, 🇺🇸美国节点, 🆓免费节点]}    ,类型：选择，代理：[ 🇭🇰香港节点, 🇹🇼台湾节点, 🇯🇵日本节点, 🇸🇬新加坡节点, 🇺🇸美国节点, 🆓免费节点]}    , type  
-  ## 若机场的 UDP 质量不太好，导致某游戏无法登录或进入房间，可以添加 `disable-udp: true` 配置项解决## 若机场的 UDP 质量不太好，导致某游戏无法登录或进入房间房间房间房间，可以添加`disable-udp: true`配置项解决##如果机场的UDP质量不太好，导致某游戏无法登录或进入房间，可以添加`disable-udp: true`配置项解决##如果机场的 UDP 质量不太好，导致某游戏无法登录或进入房间，可以添加 `disable-udp: true` 配置项解决## 若机场的 UDP 质量不太好，导致某游戏无法登录或进入房间，可以添加 `disable-udp: true` 配置项解决## 若机场的 UDP 质量不太好，导致某游戏无法登录或进入房间房间房间房间，可以添加`disable-udp: true`配置项解决##如果机场的UDP质量不太好，导致某游戏无法登录或进入房间，可以添加`disable-udp: true`配置项解决##如果机场的 UDP 质量不太好，导致某游戏无法登录或进入房间，可以添加 `disable-udp: true` 配置项解决
-   , type  🎯全球直连]  } , 输入: select , 代理: [ 🚀 节点选择, 🎯 全球直连]  }
-  ##选择`🎯全球直连`作为测试本地网络（运营商网络速度和IPv6支持情况），选择其他节点用于测试机场节点速度和IPv6支持情况##选择`🎯全球直连`作为测试本地网络（运营商网络速度和IPv6支持情况），选择其他节点用于测试机场节点速度和IPv6支持情况##选择`🎯全球直连`作为测试本地网络（运营商网络速度和IPv6支持情况），选择其他节点用于测试机场节点速度和IPv6支持情况##选择`🎯全球直连`作为测试本地网络（运营商网络速度和IPv6支持情况），选择其他节点用于测试机场节点速度和IPv6支持情况
-- , 🇭🇰香港节点, 🇹🇼台湾节点, 🇯🇵日本节点, 🇸🇬新加坡节点, 🇺🇸美国节点, 🆓免费节点, 🇭🇰香港节点, 🇹🇼台湾节点, 🇯🇵日本节点, 🇸🇬新加坡节点, 🇺🇸美国节点, 🆓免费节点, 🇭🇰香港节点, 🇹🇼台湾节点, 🇯🇵日本节点, 🇸🇬新加坡节点, 🇺🇸美国节点, 🆓免费节点, 🇭🇰香港节点, 🇹🇼台湾节点, 🇯🇵日本节点, 🇸🇬新加坡节点, 🇺🇸美国节点, 🆓免费节点
-- , type, proxies, 🇹🇼台湾节点, 🇯🇵日本节点, 🇰🇷韩国节点, 🇸🇬新加坡节点, 🇺🇸美国节点, 🇹🇼台湾节点, 🇯🇵日本节点, 🇰🇷韩国节点, 🇸🇬新加坡节点, 🇺🇸美国节点, 🇹🇼台湾节点, 🇯🇵日本节点, 🇰🇷韩国节点, 🇸🇬新加坡节点, 🇺🇸美国节点, 🇹🇼台湾节点, 🇯🇵日本节点, 🇰🇷韩国节点, 🇸🇬新加坡节点, 🇺🇸美国节点
-  - {name:       - {name: - {name: - {name: 🎮游戏服务, type: select, 代理: [🎯 全球直连, 🚀 节点选择]}, type: select, 代理: [🎯 全球直连, 🚀 节点选择] }{name: 🎮 游戏服务, type: select, 代理: [🎯 全球直连, 🚀 节点选择]}, type: select,代理: [🎯全球直连, 🚀节点选择]}{name: - {name: 🎮游戏服务, type: select, 代理: [🎯 全球直连, 🚀 节点选择]}, type: select, 代理: [🎯 全球直连, 🚀 节点选择]}{name: 🎮 游戏服务, type: select, 代理: [🎯 全球直连, 🚀 节点选择]}, type: select, 代理: [🎯 全球直连, 🚀 节点选择]}
-  - {name:       - {name: - {name: - {name: 🪟 微软服务, type: select, 代理: [🎯 全球直连, 🚀 节点选择]}, type: select, 代理: [🎯 全球直连, 🚀 节点选择] }{name: 🪟 微软服务, type: select, 代理: [🎯 全球直连, 🚀 节点选择]}, type: select,代理: [🎯全球直连, 🚀节点选择]}{name: - {name: 🪟 微软服务, type: select, 代理: [🎯 全球直连, 🚀 节点选择]}, type: select, 代理: [🎯 全球直连, 🚀 节点选择]}{name: 🪟 微软服务, type: select, 代理: [🎯 全球直连, 🚀 节点选择]}, type: select, 代理: [🎯 全球直连, 🚀 节点选择]}
-  - {name:       - {name: - {name: - {name: 🇬 谷歌服务, type: select, 代理: [🎯 全球直连, 🚀 节点选择]}, type: select, 代理: [🎯 全球直连, 🚀 节点选择] }{name: 🇬 谷歌服务, type: select, 代理: [🎯 全球直连, 🚀 节点选择]}, type: select, 代理: [🎯全球直连, 🚀 节点选择]}{name: - {name: 🇬 谷歌服务, type: select, 代理: [🎯 全球直连, 🚀 节点选择]}, type: select, 代理: [🎯 全球直连, 🚀 节点选择]}{name: 🇬 谷歌服务, type: select, 代理: [🎯 全球直连, 🚀 节点选择]}, type: select, 代理: [🎯 全球直连, 🚀 节点选择]}
-  - {name:       - {name: - {name: - {name: 🍎苹果服务, type: select, 代理: [🎯 全球直连, 🚀 节点选择]}, type: select, 代理: [🎯 全球直连, 🚀 节点选择] {名称：🍎苹果服务，类型：选择，代理：[🎯全球直连，🚀节点选择]}，类型：选择，代理： [🎯全球直连, 🚀节点选择]}{name: - {name: 🍎苹果服务, type: select, 代理: [🎯 全球直连, 🚀 节点选择]}, type: select, 代理: [🎯 全球直连, 🚀 节点选择]}{name: 🍎 苹果服务, type: select, 代理: [🎯 全球直连, 🚀 节点选择]}, type: select, 代理: [🎯 全球直连, 🚀 节点选择]}
-  - {name:     - {name: - {name: 🇨🇳 直连域名, type: select, 代理: [🎯 全球直连, 🚀 节点选择]}, type: select, 代理: [🎯 全球直连, 🚀 节点选择]}{name: 🇨🇳 直连域名, type: select, 代理: [🎯 全球直连, 🚀 节点选择]}, type: select, 代理: [🎯 全球直连, 🚀 节点选择]}
-  - {name:     - {name: - {name: 🇨🇳直连IP, type: select, 代理: [🎯全球直连, 🚀 节点选择]}, type: select, 代理: [🎯 全球直连, 🚀 节点选择]}{name: 🇨🇳 直连 IP, type: select, 代理: [🎯 全球直连, 🚀 节点选择]}, type: select, 代理: [🎯 全球直连, 🚀 节点选择]}
-  - {name:     - {name: - {name: 🪜 代理域名, type: select, proxies: [🚀 节点选择, 🎯 全球直连]}, type: select, proxies: [🚀 节点选择, 🎯 全球直连]}{name: 🪜 代理域名, type: select, proxies: [🚀 节点选择, 🎯 全球直连]}, type: select, proxies: [🚀 节点选择, 🎯 全球直连]}
-  - {name:     - {name: - {name: 📲电报消息, type: select, 代理: [🚀 节点选择]}, type: select, 代理: [🚀 节点选择]}{name: 📲 电报消息, type: select, 代理: [🚀 节点选择]}, type: select, 代理: [🚀 节点选择]}
-  ## 若使用 ShellCrash，由于无法判断本机进程（默认 `find-process-mode: off`），需删除此条 `🖥️ 直连软件`## 若使用 ShellCrash，由于无法判断本机进程（默认 `find-process-mode: off`），需删除此条 `🖥️ 直连软件`
-  - {  - {名称：🖥️直连软件，类型：选择，代理：[🎯全球直连]}[🎯全球直连]}
-  - {  - {名称：🔒树网络，类型：选择，代理：[🎯全球直连]}[🎯全球直连]}
-  - {name:   - {name: 🛑 广告拦截, type: select, proxies: [REJECT]}, type: select, proxies: [REJECT]}
-  - {  - {名称：🎯全球直连，类型：选择，代理：[DIRECT]}[DIRECT]}
+# 基础配置
+# --------------------------------------------------
+# 如果你是小白，那么你只需要修改分割线以内的内容
+# 其他部分保持不动即可
 
-  ## ----------------国家或地区政策组--------------------## ----------------国家或地区政策组--------------------
-  ##自动选择同类节点，即按照url测试结果使用延迟最低的节点；测试后容差大于50ms才会切换到延迟最低的节点；筛选出“香港”节点，支持正则表达式##自动选择同类节点，即按照url测试结果使用延迟最低的节点；测试后容差大于50ms才会切换到延迟最低的节点；筛选出“香港”节点，支持正则表达式
-  - {name:   - {name: 🇭🇰香港节点, type: url-test, 耐受度: 50, use: [🛫我的机场 1, 🛫我的机场 2], 过滤器: "(?i)港|hk|hongkong |香港”}, type: url-test, 耐受度: 50, use: [🛫我的机场 1, 🛫我的机场 2], 过滤器: "(?i)港|hk|hongkong |香港”}
-  ## 节点负载即将均衡，请求均匀到分配多个节点上，优点是更稳定，速度可能有提升；将相同拓扑的请求分配给策略组内的同一个代理节点；推荐在节点复用比较多的情况下使用## 节点负载即将均衡，请求均匀到分配多个节点上，优点是更稳定，速度可能有提升；将相同拓扑的请求分配给策略组内的同一个代理节点；推荐在节点复用比较多的情况下使用
-  - {name:   - {name: 🇹🇼台湾节点，类型：负载均衡，策略：一致性分布，use: [🛫我的机场 1, 🛫我的机场 2], 过滤器: "(?i)台|tw|taiwan ” }: [🛫我的机场 1, 🛫我的机场 2], 过滤器: "(?i)台|tw|taiwan ” }
-  ## 可使用 `include-all-providers: true` 代替 `use: [🛫 我的机场 1, 🛫 我的机场 2, ...]`，意思是引入所有代理集合## 可使用 `include-all-providers: true` 代替 `use: [🛫 我的机场 1, 🛫 我的机场 2, ...]`，意思是引入所有代理集合
-  - {name:   - {name: 🇯🇵 日本节点, type: url-test, 容差: 50, include-all-providers: true, 过滤器: "(?i)日本|jp|japan"}, type: url-test, 容差: 50, include-all-providers: true, 过滤器: "(?i)日本|jp|japan"}
-  - {name:   - {name: 🇸🇬 新加坡节点, type: url-test, 耐受度: 50, use: [🛫我的机场 1, 🛫我的机场 2], 过滤器: "(?i)新|sg|singapore ” }, type: url-test, 耐受度: 50, use: [🛫我的机场 1, 🛫我的机场 2], 过滤器: "(?i)新|sg|singapore ” }
-  - {name: 🇺🇸美国节点, type: url-test, 耐受度: 50, use: [🛫我的机场 1, 🛫我的机场 2], 过滤器: "(?i)美|us|unitedstates |美国”}
+# 也可以把分割线以内的内容粘贴到您使用代理工具的「覆写」功能，然后在覆写中进行修改
+# 使用覆写时可以直接将此配置文件作为订阅链接进行订阅
+# https://ghp.ci/https://gist.githubusercontent.com/liuran001/5ca84f7def53c70b554d3f765ff86a33/raw/c1d33956db7097252b88a6c06ed76f32526747c4/config.yaml
 
-## 规则集（yaml 文件每天自动更新）
-规则提供者：
-  ##若使用ShellCrash，由于无法判断本机进程（默认`find-process-mode: off`），需删除此条`applications`
-  应用：
-    类型：http
-    行为：经典
-    格式：文本
-    路径：./rules/applications.list
-    网址：“https://github.com/DustinWin/ruleset_geodata/releases/download/clash-ruleset/applications.list”
-    区间：86400
+# 如果你需要使用大于两个机场，在下方 `use` 处添加 `订阅三` （名字可以自己取），然后在 `proxy-providers` 照例添加订阅链接即可
+# 反之，如果你只需要使用一个，那么将 `订阅二` 前添加 `#` 进行注释即可
 
-  私人的：
-    类型：http
-    行为：域
-    格式： 女士
-    路径：./rules/private.mrs
-    网址：“https://github.com/DustinWin/ruleset_geodata/releases/download/clash-ruleset/private.mrs”
-    区间：86400
+# 订阅名，记得修改成自己的
+# 添删订阅在这里和下方订阅链接依葫芦画瓢就行
+use: &use
+  # 如果不希望自动切换请将下面两行注释对调
+  # type: select
+  type: url-test
+  use:
+    - 订阅一
+    - 订阅二
+    # - 本地配置
 
-  广告：
-    类型：http
-    行为：域
-    格式： 女士
-    路径：./rules/ads.mrs
-    网址：“https://github.com/DustinWin/ruleset_geodata/releases/download/clash-ruleset/ads.mrs”
-    区间：86400
+# 订阅链接
+# 对于订阅来说，path 为选填项，但建议启用
+# 本地配置可以只填 path
+proxy-providers:
+  订阅一:
+    <<: *p
+    # path: ./proxy_provider/订阅一.yaml
+    url: "https://example.com/airport?type=clashmeta&protocol=shadowsocks&rule=default"
 
-  微软中国：
-    类型：http
-    行为：域
-    格式： 女士
-    路径：./rules/microsoft-cn.mrs
-    网址：“https://github.com/DustinWin/ruleset_geodata/releases/download/clash-ruleset/microsoft-cn.mrs”
-    区间：86400
+  订阅二:
+    <<: *p
+    # path: ./proxy_provider/订阅二.yaml
+    url: "https://example.com/api/v1/client/subscribe?token=ilovechina"
 
-  苹果中国：
-    类型：http
-    行为：域
-    格式： 女士
-    路径：./rules/apple-cn.mrs
-    网址：“https://github.com/DustinWin/ruleset_geodata/releases/download/clash-ruleset/apple-cn.mrs”
-    区间：86400
+  # 本地配置:
+    # <<: *p
+    # path: ./proxy_provider/本地配置.yaml
 
-  google-cn:
-    类型：http
-    行为：域
-    格式： 女士
-    路径：./rules/google-cn.mrs
-    网址：“https://github.com/DustinWin/ruleset_geodata/releases/download/clash-ruleset/google-cn.mrs”
-    区间：86400
+# 小白请不要继续随意修改以下设置
+# 若需修改请参阅文档 https://wiki.metacubex.one
+# --------------------------------------------------
 
-  games-cn:
-    类型：http
-    行为：域
-    格式： 女士
-    路径：./rules/games-cn.mrs
-    网址：“https://github.com/DustinWin/ruleset_geodata/releases/download/clash-ruleset/games-cn.mrs”
-    区间：86400
+# 规则订阅
+rule-providers:
+  # 秋风广告拦截规则
+  # https://awavenue.top
+  # 由于 Anti-AD 误杀率高，本项目已在 1.11-241024 版本更换秋风广告规则
+  AWAvenue-Ads:
+    type: http
+    behavior: domain
+    format: yaml
+    # path可为空(仅限clash.meta 1.15.0以上版本)
+    path: ./rule_provider/AWAvenue-Ads.yaml
+    url: "https://ghp.ci/https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/refs/heads/main/Filters/AWAvenue-Ads-Rule-Clash.yaml"
+    interval: 600
 
-  人工智能：
-    类型：http
-    行为：域
-    格式： 女士
-    路径：./rules/ai.mrs
-    网址：“https://github.com/DustinWin/ruleset_geodata/releases/download/clash-ruleset/ai.mrs”
-    区间：86400
+mode: rule
+# ipv6 支持
+ipv6: true
+log-level: info
+# 允许局域网连接
+allow-lan: true
+# socks5/http 端口
+mixed-port: 7890
+# Meta 内核特性 https://wiki.metacubex.one/config/general
+# 统一延迟
+# 更换延迟计算方式,去除握手等额外延迟
+unified-delay: true
+# TCP 并发
+# 同时对所有ip进行连接，返回延迟最低的地址
+tcp-concurrent: true
+# 外部控制端口
+external-controller: :9090
 
-  网络测试：
-    类型：http
-    行为：经典
-    格式：文本
-    路径：./rules/networktest.list
-    网址：“https://github.com/DustinWin/ruleset_geodata/releases/download/clash-ruleset/networktest.list”
-    区间：86400
+geodata-mode: true
 
-  代理人：
-    类型：http
-    行为：域
-    格式： 女士
-    路径：./rules/proxy.mrs
-    网址：“https://github.com/DustinWin/ruleset_geodata/releases/download/clash-ruleset/proxy.mrs”
-    区间：86400
+# Geo 数据库下载地址
+# 使用 FastGit 代理 (https://fgit.cf)
+# 源地址 https://github.com/MetaCubeX/meta-rules-dat
+# 可以更换镜像站但不要更换其他数据库，可能导致无法启动
+geox-url:
+  geoip: "https://ghp.ci/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip.dat"
+  geosite: "https://ghp.ci/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat"
+  mmdb: "https://ghp.ci/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/country.mmdb"
 
-  中文:
-    类型：http
-    行为：域
-    格式： 女士
-    路径：./rules/cn.mrs
-    网址：“https://github.com/DustinWin/ruleset_geodata/releases/download/clash-ruleset/cn.mrs”
-    区间：86400
+# 进程匹配模式
+# 路由器上请设置为 off
+# always 开启，强制匹配所有进程
+# strict 默认，由 Clash 判断是否开启
+# off 不匹配进程，推荐在路由器上使用此模式
+find-process-mode: strict
 
-  电报：
-    类型：http
-    行为：ipcidr
-    格式： 女士
-    路径：./rules/telegramip.mrs
-    网址：“https://github.com/DustinWin/ruleset_geodata/releases/download/clash-ruleset/telegramip.mrs”
-    区间：86400
+# 缓解移动设备耗电问题
+# https://github.com/vernesong/OpenClash/issues/2614
+keep-alive-interval: 1800
 
-  IP地址：
-    类型：http
-    行为：ipcidr
-    格式： 女士
-    路径：./rules/privateip.mrs
-    网址：“https://github.com/DustinWin/ruleset_geodata/releases/download/clash-ruleset/privateip.mrs”
-    区间：86400
+# 全局客户端指纹
+global-client-fingerprint: random # 随机指纹
 
-  cnip:
-    类型：http
-    行为：ipcidr
-    格式： 女士
-    路径：./rules/cnip.mrs
-    网址：“https://github.com/DustinWin/ruleset_geodata/releases/download/clash-ruleset/cnip.mrs”
-    区间：86400
+# 缓存
+profile:
+  store-selected: true
+  store-fake-ip: true
 
-## 规则
+# 自动同步时间以防止时间不准导致无法正常联网
+ntp:
+  enable: true
+  # 是否同步至系统时间，需要 root/管理员权限
+  write-to-system: false
+  server: time.apple.com
+  port: 123
+  interval: 30
+
+# 域名嗅探
+sniffer:
+  enable: true
+  sniff:
+    TLS:
+      ports: [443, 8443]
+    HTTP:
+      ports: [80, 8080-8880]
+      override-destination: true
+
+# tun 模式
+tun:
+  enable: false  # enable 'true'
+  stack: system  # or 'gvisor'
+  dns-hijack:
+    - "any:53"
+    - "tcp://any:53"
+  auto-route: true
+  auto-detect-interface: true
+
+# dns 设置
+# 已配置 ipv6
+dns:
+  enable: true
+  listen: :1053
+  ipv6: true
+  # 路由器个人建议使用 redir-host 以最佳兼容性
+  # 其他设备可以使用 fake-ip
+  enhanced-mode: redir-host
+  fake-ip-range: 28.0.0.1/8
+  fake-ip-filter:
+    - '*'
+    - '+.lan'
+    - '+.local'
+  default-nameserver:
+    - 223.5.5.5
+    - 119.29.29.29
+    - 114.114.114.114
+    - '[2402:4e00::]'
+    - '[2400:3200::1]'
+  nameserver:
+    - 'tls://8.8.4.4#dns'
+    - 'tls://1.0.0.1#dns'
+    - 'tls://[2001:4860:4860::8844]#dns'
+    - 'tls://[2606:4700:4700::1001]#dns'
+  proxy-server-nameserver:
+    - https://doh.pub/dns-query
+  nameserver-policy:
+    "geosite:cn,private":
+      - https://doh.pub/dns-query
+      - https://dns.alidns.com/dns-query
+    "geosite:!cn,!private": 
+      - "tls://dns.google"
+      - "tls://cloudflare-dns.com"
+
+# 多入站端口设置
+# listeners:
+#   - name: hk
+#     type: mixed
+#     port: 12991
+#     proxy: 香港
+
+#   - name: tw
+#     type: mixed
+#     port: 12992
+#     proxy: 台湾
+
+#   - name: sg
+#     type: mixed
+#     port: 12993
+#     proxy: 新加坡
+
+proxies:
+  # - name: "WARP"
+  #   type: wireguard
+  #   server: engage.cloudflareclient.com
+  #   port: 2408
+  #   ip: "172.16.0.2/32"
+  #   ipv6: "2606::1/128"        # 自行替换
+  #   private-key: "private-key" # 自行替换
+  #   public-key: "public-key"   # 自行替换
+  #   udp: true
+  #   reserved: "abba"           # 自行替换
+  #   mtu: 1280
+  #   dialer-proxy: "WARP前置"
+  #   remote-dns-resolve: true
+  #   dns:
+  #     - https://dns.cloudflare.com/dns-query
+
+proxy-groups:
+  # 使用 WARP 的用户需要手动在下方的 proxies 字段内添加 WARP
+  # 例如 [WARP, 全部节点, 自动选择, 香港, 台湾, 日本, 新加坡, 美国, 其它地区, DIRECT],
+  - {
+      name: 节点选择,
+      type: select,
+      proxies:
+        [全部节点, 自动选择, 香港, 台湾, 日本, 新加坡, 美国, 其它地区, DIRECT],
+    }
+  # 这里的 dns 指海外解析 dns 走的节点，一般跟随节点选择即可
+  - { name: dns, <<: *pr }
+  # WARP 配置链式出站
+  # - { name: WARP前置, <<: *pr, exclude-type: "wireguard" }
+
+  - { name: 广告拦截, type: select, proxies: [REJECT, DIRECT, 节点选择] }
+  - { name: OpenAI, <<: *pr }
+  # Apple 推荐走全局直连
+  - { name: Apple, <<: *pr }
+  - { name: Google, <<: *pr }
+  - { name: Telegram, <<: *pr }
+  - { name: Twitter, <<: *pr }
+  - { name: Pixiv, <<: *pr }
+  - { name: ehentai, <<: *pr }
+  # 下面两个看需求启用，打开之后会代理全站流量，可能导致部分版权视频反而无法播放或视频播放速度缓慢
+  # 下面 rules 两条也要启用
+# - {name: 哔哩哔哩, <<: *pr}
+# - {name: 哔哩东南亚, <<: *pr}
+  - { name: 巴哈姆特, <<: *pr }
+  - { name: YouTube, <<: *pr }
+  - { name: NETFLIX, <<: *pr }
+  - { name: Spotify, <<: *pr }
+  - { name: Github, <<: *pr }
+  - { name: Steam, <<: *pr }
+  - { name: OneDrive, <<: *pr }
+  - { name: 微软服务, <<: *pr }
+  - {
+      name: 国内,
+      type: select,
+      proxies:
+        [
+          DIRECT,
+          节点选择,
+          香港,
+          台湾,
+          日本,
+          新加坡,
+          美国,
+          其它地区,
+          全部节点,
+          自动选择,
+        ],
+    }
+  # 其他就是所有规则没匹配到的
+  # 可以理解为 ACL4SSR 配置里的 漏网之鱼
+  # 换言之，其他走代理就是绕过中国大陆地址，不走就是 GFWList 模式
+  - { name: 其他, <<: *pr }
+
+  # 分隔,下面是地区分组
+  - { name: 香港, <<: *use, filter: "(?i)港|hk|hongkong|hong kong" }
+  - { name: 台湾, <<: *use, filter: "(?i)台|tw|taiwan" }
+  - { name: 日本, <<: *use, filter: "(?i)日本|jp|japan" }
+  - { name: 美国, <<: *use, filter: "(?i)美|us|unitedstates|united states" }
+  - { name: 新加坡, <<: *use, filter: "(?i)(新|sg|singapore)" }
+  - {
+      name: 其它地区,
+      <<: *use,
+      filter: "(?i)^(?!.*(?:🇭🇰|🇯🇵|🇺🇸|🇸🇬|🇨🇳|港|hk|hongkong|台|tw|taiwan|日|jp|japan|新|sg|singapore|美|us|unitedstates)).*",
+    }
+  - { name: 全部节点, <<: *use }
+  - { name :自动选择, << : *use ,容差: 2 , type : url-test }
+
 规则：
-  ## 自定义规则优先放前面
-  ##使P2P流量（BT下载）走直连，可添加一条`DST-PORT`规则（ShellCrash会默认开启“只代理常用端口”，可删除此条`DST-PORT`）
-  - DST-PORT,6881-6889,🎯全球直连
-  ##若使用ShellCrash，由于无法判断本机进程（默认`find-process-mode: off`），需删除此条`RULE-SET`
-  - 规则集，应用程序，🖥️直连软件
-  - 规则集，私人，🔒间歇网络
-  - 规则集，广告，🛑广告拦截
-  - 规则集,microsoft-cn,🪟 微软服务
-  - 规则集,apple-cn,🍎 苹果服务
-  - 规则集,google-cn,🇬 谷歌服务
-  - 规则集,games-cn,🎮 游戏服务
-  - 规则集，ai，🤖人工智能
-  - 规则集，网络测试，📈网络测试
-  - 规则集，代理，🪜代理域名
-  - RULE-SET,cn,🇨🇳 直连域名
-  - 规则集，telegramip，📲电报消息，无解决
-  - RULE-SET,privateip,🔒间歇网络,无解决
-  - 规则集，cnip，🇨🇳直连IP
-  - MATCH,🐟漏网之鱼
+  #若需取消 QUIC 请取消注释 QUIC 配额规则
+  # 防止YouTube等使用QUIC导致速度故障，取消443端口UDP流量（不包括国内）
+
+# - AND,(AND,(DST-PORT,443),(NETWORK,UDP)),(NOT,((GEOSITE,cn))),REJECT # 快
+  -规则制定、AWAvenue广告、广告拦截
+# - GEOSITE,biliintl,哔哩东南亚
+#-GEOSITE，bilibili，哔哩哔哩
+
+  - GEOSITE、openai、OpenAI
+  - GEOSITE，苹果，苹果
+  - GEOSITE,apple-cn,苹果
+  - GEOSITE，ehentai，ehentai
+  - GEOSITE，github，Github
+  - GEOSITE，推特，推特
+  - GEOSITE、youtube、YouTube
+  - GEOSITE，谷歌，谷歌
+  - GEOSITE,google-cn,Google # Google CN 不走代理会导致香港等地区节点 Play Store 异常
+  - GEOSITE，电报，电报
+  - GEOSITE、Netflix、NETFLIX
+  - GEOSITE，巴哈姆特，巴哈姆特
+  - GEOSITE、Spotify、Spotify
+  - GEOSITE,pixiv,Pixiv
+  - GEOSITE,steam@cn,DIRECT
+  -地质岩，蒸汽，蒸汽
+  - GEOSITE、onedrive、OneDrive
+  - GEOSITE、微软、微软服务
+  - GEOSITE,geolocation-!cn,其他
+# - AND,(AND,(DST-PORT,443),(网络,UDP)),(NOT,((GEOIP,CN))),REJECT # 快
+  - GEOIP，谷歌，谷歌
+  - GEOIP、Netflix、NETFLIX
+  - GEOIP，电报，电报
+  - GEOIP，推特，推特
+  - GEOSITE，中国，国内，
+  - GEOIP，中国，国内，
+  # 绕道地址
+  - IP-CIDR，10.0.0.0/8，直接
+  - IP-CIDR，172.16.0.0/12，直接
+  - IP-CIDR，192.168.0.0/16，直接
+  - IP-CIDR，100.64.0.0/10，直接
+  - IP-CIDR，127.0.0.0/8，直接
+  -比赛，其他
