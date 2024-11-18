@@ -1,0 +1,225 @@
+## 代理集合（获取机场订阅链接内的所有节点）
+代理成立：
+  🛫 我的机场 1：
+    类型：http
+    ## 机场订阅链接，使用 Clash 链接
+    网址：“https://example.com/xxx/xxx&flag=clash”
+    路径：./proxies/airport1.yaml
+    区间：86400
+    ## 筛选需要的节点，可有效断开路由器压力，支持正则表达式，不筛选可删除此配置项
+    过滤器：“(?i)港|hk|香港|香港|台|tw|台湾|日本|jp|日本|新|新加坡|新加坡|美|美国|美国|美国”
+    ##建议排除需要的节点，支持正则表达式配置，若不能排除可删除项目
+    排除过滤器：“高倍|×10”
+    健康检查：
+      启用：真
+      网址：https://www.gstatic.com/generate_204
+      间隔：600
+    覆盖：
+      ## 为节点名称添加固定邻居，如节点名称原为“香港节点”会变成“🛫 我的机场 1-香港节点”；推荐有多个机场时使用
+      附加出口：“🛫我的机场1-”
+      ## 为节点名称添加固定后缀，如节点原为“香港节点”会变成“香港节点-🛫我的机场1”；推荐有多个机场时使用
+      附加后缀：“-🛫我的机场1”
+
+  🛫 我的机场 2：
+    类型：http
+    网址：“https://example.com/xxx/xxx&flag=clash”
+    路径：./proxies/airport2.yaml
+    区间：86400
+    过滤器：“(?i)港|hk|香港|香港|台|tw|台湾|日本|jp|日本|新|新加坡|新加坡|美|美国|美国|美国”
+    排除过滤器：“高倍|×10”
+    健康检查：
+      启用：真
+      网址：https://www.gstatic.com/generate_204
+      间隔：600
+    覆盖：
+      ## 为节点名称添加固定邻居，如节点名称原为“香港节点”会变成“🛫我的机场 2-香港节点”；推荐有多个机场时使用
+      附加出口：“🛫我的机场2-”
+      ## 为节点名称添加固定后缀，如节点原为“香港节点”会变成“香港节点-🛫我的机场2”；推荐有多个机场时使用
+      附加后缀：“-🛫我的机场2”
+
+##单个出站代理节点（以vless为例）
+代理：
+  - 名称: 🆓免费节点
+    类型：无v
+    服务器：example.com
+    端口：443
+    uuid: {uuid}
+    网络：ws
+    ls：正确
+    UDP：假
+    sni：example.com
+    客户端指纹：镀铬
+    ws-选项：
+      路径：“/?ed=2048”
+      标题：
+        域名：example.com
+
+## 组策略
+代理组：
+  ## 手动选择国家或地区节点；根据“国家或地区策略组”名称对“代理”值进行增删改，须一一对应
+  - {name: 🚀 节点选择, type: select, proxies: [🇭🇰香港节点, 🇹🇼台湾节点, 🇯🇵日本节点, 🇸🇬新加坡节点, 🇺🇸美国节点, 🆓免费节点]}
+  ## 若机场的 UDP 质量不太好，导致某游戏无法登录或进入房间，可以添加 `disable-udp: true` 配置项解决
+  - {name: 🐟 漏网之鱼, type: select, proxies: [🚀 节点选择, 🎯 全球直连]}
+  ##选择`🎯全球直连`作为测试本地网络（运营商网络速度和IPv6支持情况），选择其他节点用于测试机场节点速度和IPv6支持情况
+  - {name: 📈 网络测试, type: select, proxies: [🎯全球直连, 🇭🇰香港节点, 🇹🇼台湾节点, 🇯🇵日本节点, 🇸🇬新加坡节点, 🇺🇸美国节点, 🆓免费节点]}
+  - {name: 🤖人工智能, type: select, proxies: [🇭🇰香港节点, 🇹🇼台湾节点, 🇯🇵日本节点, 🇰🇷韩国节点, 🇸🇬新加坡节点, 🇺🇸美国节点]}
+  - {name: 🎮 游戏服务, type: select, 代理: [🎯 全球直连, 🚀 节点选择]}
+  - {name: 🪟 微软服务, type: select, 代理: [🎯 全球直连, 🚀 节点选择]}
+  - {name: 🇬 谷歌服务, type: select, 代理: [🎯 全球直连, 🚀 节点选择]}
+  - {name: 🍎 苹果服务, type: select, 代理: [🎯 全球直连, 🚀 节点选择]}
+  - {name: 🇨🇳 直连域名, type: select, 代理: [🎯 全球直连, 🚀 节点选择]}
+  - {name: 🇨🇳 直连 IP, type: select, 代理: [🎯 全球直连, 🚀 节点选择]}
+  - {name: 🪜 代理域名, type: select, proxies: [🚀 节点选择, 🎯 全球直连]}
+  - {name: 📲 电报消息, type: select, 代理: [🚀 节点选择]}
+  ## 若使用 ShellCrash，由于无法判断本机进程（默认 `find-process-mode: off`），需删除此条 `🖥️ 直连软件`
+  - {名称：🖥️直连软件，类型：选择，代理：[🎯全球直连]}
+  - {名称：🔒树网络，类型：选择，代理：[🎯全球直连]}
+  - {name: 🛑 广告拦截, type: select, proxies: [REJECT]}
+  - {名称：🎯全球直连，类型：选择，代理：[DIRECT]}
+
+  ## ----------------国家或地区政策组--------------------
+  ##自动选择同类节点，即按照url测试结果使用延迟最低的节点；测试后容差大于50ms才会切换到延迟最低的节点；筛选出“香港”节点，支持正则表达式
+  - {name: 🇭🇰香港节点, type: url-test, 耐受度: 50, use: [🛫我的机场 1, 🛫我的机场 2], 过滤器: "(?i)港|hk|hongkong |香港”}
+  ## 节点负载即将均衡，请求均匀到分配多个节点上，优点是更稳定，速度可能有提升；将相同拓扑的请求分配给策略组内的同一个代理节点；推荐在节点复用比较多的情况下使用
+  - {name: 🇹🇼台湾节点，类型：负载均衡，策略：一致性分布，use: [🛫我的机场 1, 🛫我的机场 2], 过滤器: "(?i)台|tw|taiwan ” }
+  ## 可使用 `include-all-providers: true` 代替 `use: [🛫 我的机场 1, 🛫 我的机场 2, ...]`，意思是引入所有代理集合
+  - {name: 🇯🇵 日本节点, type: url-test, 容差: 50, include-all-providers: true, 过滤器: "(?i)日本|jp|japan"}
+  - {name: 🇸🇬 新加坡节点, type: url-test, 耐受度: 50, use: [🛫我的机场 1, 🛫我的机场 2], 过滤器: "(?i)新|sg|singapore ” }
+  - {name: 🇺🇸美国节点, type: url-test, 耐受度: 50, use: [🛫我的机场 1, 🛫我的机场 2], 过滤器: "(?i)美|us|unitedstates |美国”}
+
+## 规则集（yaml 文件每天自动更新）
+规则提供者：
+  ##若使用ShellCrash，由于无法判断本机进程（默认`find-process-mode: off`），需删除此条`applications`
+  应用：
+    类型：http
+    行为：经典
+    格式：文本
+    路径：./rules/applications.list
+    网址：“https://github.com/DustinWin/ruleset_geodata/releases/download/clash-ruleset/applications.list”
+    区间：86400
+
+  私人的：
+    类型：http
+    行为：域
+    格式： 女士
+    路径：./rules/private.mrs
+    网址：“https://github.com/DustinWin/ruleset_geodata/releases/download/clash-ruleset/private.mrs”
+    区间：86400
+
+  广告：
+    类型：http
+    行为：域
+    格式： 女士
+    路径：./rules/ads.mrs
+    网址：“https://github.com/DustinWin/ruleset_geodata/releases/download/clash-ruleset/ads.mrs”
+    区间：86400
+
+  微软中国：
+    类型：http
+    行为：域
+    格式： 女士
+    路径：./rules/microsoft-cn.mrs
+    网址：“https://github.com/DustinWin/ruleset_geodata/releases/download/clash-ruleset/microsoft-cn.mrs”
+    区间：86400
+
+  苹果中国：
+    类型：http
+    行为：域
+    格式： 女士
+    路径：./rules/apple-cn.mrs
+    网址：“https://github.com/DustinWin/ruleset_geodata/releases/download/clash-ruleset/apple-cn.mrs”
+    区间：86400
+
+  google-cn:
+    类型：http
+    行为：域
+    格式： 女士
+    路径：./rules/google-cn.mrs
+    网址：“https://github.com/DustinWin/ruleset_geodata/releases/download/clash-ruleset/google-cn.mrs”
+    区间：86400
+
+  games-cn:
+    类型：http
+    行为：域
+    格式： 女士
+    路径：./rules/games-cn.mrs
+    网址：“https://github.com/DustinWin/ruleset_geodata/releases/download/clash-ruleset/games-cn.mrs”
+    区间：86400
+
+  人工智能：
+    类型：http
+    行为：域
+    格式： 女士
+    路径：./rules/ai.mrs
+    网址：“https://github.com/DustinWin/ruleset_geodata/releases/download/clash-ruleset/ai.mrs”
+    区间：86400
+
+  网络测试：
+    类型：http
+    行为：经典
+    格式：文本
+    路径：./rules/networktest.list
+    网址：“https://github.com/DustinWin/ruleset_geodata/releases/download/clash-ruleset/networktest.list”
+    区间：86400
+
+  代理人：
+    类型：http
+    行为：域
+    格式： 女士
+    路径：./rules/proxy.mrs
+    网址：“https://github.com/DustinWin/ruleset_geodata/releases/download/clash-ruleset/proxy.mrs”
+    区间：86400
+
+  中文:
+    类型：http
+    行为：域
+    格式： 女士
+    路径：./rules/cn.mrs
+    网址：“https://github.com/DustinWin/ruleset_geodata/releases/download/clash-ruleset/cn.mrs”
+    区间：86400
+
+  电报：
+    类型：http
+    行为：ipcidr
+    格式： 女士
+    路径：./rules/telegramip.mrs
+    网址：“https://github.com/DustinWin/ruleset_geodata/releases/download/clash-ruleset/telegramip.mrs”
+    区间：86400
+
+  IP地址：
+    类型：http
+    行为：ipcidr
+    格式： 女士
+    路径：./rules/privateip.mrs
+    网址：“https://github.com/DustinWin/ruleset_geodata/releases/download/clash-ruleset/privateip.mrs”
+    区间：86400
+
+  cnip:
+    类型：http
+    行为：ipcidr
+    格式： 女士
+    路径：./rules/cnip.mrs
+    网址：“https://github.com/DustinWin/ruleset_geodata/releases/download/clash-ruleset/cnip.mrs”
+    区间：86400
+
+## 规则
+规则：
+  ## 自定义规则优先放前面
+  ##使P2P流量（BT下载）走直连，可添加一条`DST-PORT`规则（ShellCrash会默认开启“只代理常用端口”，可删除此条`DST-PORT`）
+  - DST-PORT,6881-6889,🎯全球直连
+  ##若使用ShellCrash，由于无法判断本机进程（默认`find-process-mode: off`），需删除此条`RULE-SET`
+  - 规则集，应用程序，🖥️直连软件
+  - 规则集，私人，🔒间歇网络
+  - 规则集，广告，🛑广告拦截
+  - 规则集,microsoft-cn,🪟 微软服务
+  - 规则集,apple-cn,🍎 苹果服务
+  - 规则集,google-cn,🇬 谷歌服务
+  - 规则集,games-cn,🎮 游戏服务
+  - 规则集，ai，🤖人工智能
+  - 规则集，网络测试，📈网络测试
+  - 规则集，代理，🪜代理域名
+  - RULE-SET,cn,🇨🇳 直连域名
+  - 规则集，telegramip，📲电报消息，无解决
+  - RULE-SET,privateip,🔒间歇网络,无解决
+  - 规则集，cnip，🇨🇳直连IP
+  - MATCH,🐟漏网之鱼
