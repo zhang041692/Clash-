@@ -2,55 +2,55 @@
 # 版本 V1.12-241024
 # https://gist.github.com/liuran001/5ca84f7def53c70b554d3f765ff86a33
 # https://obdo.cc/meta
-# 作者：笨蛋ovo (bdovo.cc)
-#电报：https://t.me/baka_not_baka
-#关注我的 Telegram 频道谢谢喵 https://t.me/s/BDovo_Channel
+# 作者: 笨蛋ovo (bdovo.cc)
+# Telegram: https://t.me/baka_not_baka
+# 关注我的 Telegram 频道谢谢喵 https://t.me/s/BDovo_Channel
 # 修改自官方示例规则 https://wiki.metacubex.one/example/#meta
-#转载请保留此注释
-# 尽量添加一些建议性的注释，不理解的地方对照虚空终端 (Clash Meta) Docs 进行理解
-# 虚空终端 (Clash Meta) 文档地址：https://wiki.metacubex.one
-#修改的位置不要乱动，如果你是小白，请按`Ctrl + F`搜索`基础配置`，仅此部分
+# 转载请保留此注释
+# 尽量添加了较为详尽的注释，不理解的地方建议对照 虚空终端 (Clash Meta) Docs 进行理解
+# 虚空终端 (Clash Meta) Docs 地址: https://wiki.metacubex.one
+# 不理解的地方不要乱动，如果你是小白，请按下 `Ctrl + F` 搜索 `基础配置`，只修改此部分
 
 # true 是启用
 # false 是禁用
 
-# 包
-公关：
-  &pr {   {
-    类型： 类型：选择，,
-    代理：
-      [     [
-        节点选择,      ,
-        香港,      ,
-        台湾,,​
-        日本、,
-        新加坡,,​
-        美国，，
-        其他地区,,
-        全部节点,       ,
-        自动选择，，
-        直接的，，
-      ]      ,      ]      ,
-  }     }
-# 延迟检测URL
-p :普：&普
-  类型：类型：http
-  #自动更新订阅时间，单位为秒#自动更新订阅时间，单位为秒
-  间隔：3600
-  健康检查：
-    启用：真
-    网址   :     网址：https : //cp.cloudflare.com : //cp.cloudflare.com
-    # 单位权益检测时间，为秒# 单位权益检测时间，单位为秒
-    间隔：300
-    # 节点超时延迟，单位为毫秒# 节点超时延迟，单位为毫秒
-    超时：1000
+# 分组
+pr:
+  &pr {
+    type: select,
+    proxies:
+      [
+        节点选择,
+        香港,
+        台湾,
+        日本,
+        新加坡,
+        美国,
+        其它地区,
+        全部节点,
+        自动选择,
+        DIRECT,
+      ],
+  }
+# 延迟检测 URL
+p: &p
+  type: http
+  # 自动更新订阅时间，单位为秒
+  interval: 3600
+  health-check:
+    enable: true
+    url: https://cp.cloudflare.com
+    # 节点连通性检测时间，单位为秒
+    interval: 300
+    # 节点超时延迟，单位为毫秒
+    timeout: 1000
     # 节点自动切换差值，单位为毫秒
-    公差：100
+    tolerance: 100
 
 # 基础配置
-#------------------------------------------------- -
-# 如果你是小白，那么你只需要修改分割线内的内容
-#其他部分保持不动即可
+# --------------------------------------------------
+# 如果你是小白，那么你只需要修改分割线以内的内容
+# 其他部分保持不动即可
 
 # 也可以把分割线以内的内容粘贴到您使用代理工具的「覆写」功能，然后在覆写中进行修改
 # 使用覆写时可以直接将此配置文件作为订阅链接进行订阅
@@ -61,48 +61,37 @@ p :普：&普
 
 # 订阅名，记得修改成自己的
 # 添删订阅在这里和下方订阅链接依葫芦画瓢就行
-use: 使用： 使用：&使用
-  #如果不希望自动切换前台下面两行注释对调#如果不希望自动切换前台下面两行注释对调# 如果不希望自动切换前台下面两行注释对调# 如果不希望自动切换请将下面两行注释对调
-  # 类型：选择# 类型：选择# 类型：选择# type: select
-  type:     type: 类型： url 测试
+use: &use
+  # 如果不希望自动切换请将下面两行注释对调
+  # type: select
+  type: url-test
   use:
-    -         - - 订阅一
-    -         - - 订阅二
-    # - 本地配置# - 本地配置# - 本地配置# - 本地配置
+    - 自制BPB
+    # - 本地配置
 
 # 订阅链接
 # 对于订阅来说，path 为选填项，但建议启用
 # 本地配置可以只填 path
 proxy-providers:
   自制BPB:
-    <<:         <<：<<：*p
-    # 路径：./proxy_provider/订阅一.yaml# 路径: ./proxy_provider/订阅一.yaml# 路径：./proxy_provider/订阅一.yaml# path: ./proxy_provider/订阅一.yaml
+    <<: *p
+     path: ./proxy_provider/自制BPB.yaml
     url: "https://bpb-worker-panel001-dmn.pages.dev/sub/89b3cbba-e6ac-485a-9481-976a0415eab9?app=clash#BPB-Full-Normal"
-
-  #订阅二:
-    <<:     <<：*p
-    # 路径：./proxy_provider/订阅二.yaml# path: ./proxy_provider/订阅二.yaml
-    url: "https://example.com/api/v1/client/subscribe?token=ilovechina"
-
-  # 本地配置：# 本地配置:
-    ＃<<：*p# <<: *p
-    # 路径：./proxy_provider/本地配置.yaml# path: ./proxy_provider/本地配置.yaml
-
 # 小白请不要继续随意修改以下设置
 # 若需修改请参阅文档 https://wiki.metacubex.one
 # --------------------------------------------------
 
 # 规则订阅
 rule-providers:
-  #秋风广告拦截规则# 秋风广告拦截规则
-  # https://awavenue.top# https://awavenue.top
-  #由于抗AD误杀率高，本项目已于1.11-241024版本更换秋风广告规则# 由于 Anti-AD 误杀率高，本项目已在 1.11-241024 版本更换秋风广告规则
+  # 秋风广告拦截规则
+  # https://awavenue.top
+  # 由于 Anti-AD 误杀率高，本项目已在 1.11-241024 版本更换秋风广告规则
   AWAvenue-Ads:
-    type:     类型：http
-    behavior:     行为：域
-    format:     格式：yaml
-    # path 解决空(仅限clash.meta 1.15.0以上版本)# path可为空(仅限clash.meta 1.15.0以上版本)
-    path:     路径：./rule_provider/AWAvenue-Ads.yaml
+    type: http
+    behavior: domain
+    format: yaml
+    # path可为空(仅限clash.meta 1.15.0以上版本)
+    path: ./rule_provider/AWAvenue-Ads.yaml
     url: "https://ghp.ci/https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/refs/heads/main/Filters/AWAvenue-Ads-Rule-Clash.yaml"
     interval: 600
 
@@ -311,57 +300,57 @@ proxy-groups:
 
   # 分隔,下面是地区分组
   - { name: 香港, <<: *use, filter: "(?i)港|hk|hongkong|hong kong" }
-  - { name :台湾, << : *use , filter : "(?i)台|tw|台湾"  }
-  - {名称:日本, << : *use ,过滤器: "(?i)日本|jp|日本"  }
-  - { name :美国, << : *use , filter : "(?i)美|us|unitedstates|美国"  }
-  - { name :新加坡, << : *use , filter : "(?i)(新|sg|新加坡)"  }
+  - { name: 台湾, <<: *use, filter: "(?i)台|tw|taiwan" }
+  - { name: 日本, <<: *use, filter: "(?i)日本|jp|japan" }
+  - { name: 美国, <<: *use, filter: "(?i)美|us|unitedstates|united states" }
+  - { name: 新加坡, <<: *use, filter: "(?i)(新|sg|singapore)" }
   - {
-      名称:其他地区,
-      << ： *使用，
-      过滤器: "(?i)^(?!.*(?:🇭🇰|🇯🇵|🇺🇸|🇸🇬|🇨🇳|港|hk|香港|台|tw|台湾|日|jp|日本|新|sg|新加坡|美|美国|美国)).*" ,
+      name: 其它地区,
+      <<: *use,
+      filter: "(?i)^(?!.*(?:🇭🇰|🇯🇵|🇺🇸|🇸🇬|🇨🇳|港|hk|hongkong|台|tw|taiwan|日|jp|japan|新|sg|singapore|美|us|unitedstates)).*",
     }
-  - { name :全部节点, <<  : *use }
-  - { name :自动选择, <<  : *use ,容差: 2 , type  : url-test }
+  - { name: 全部节点, <<: *use }
+  - { name: 自动选择, <<: *use, tolerance: 2, type: url-test }
 
-规则：
-  #若需取消 QUIC 请取消注释 QUIC 损耗规则
-  #防止YouTube等使用QUIC导致速度故障，取消443端口UDP流量（不包括国内）
+rules:
+  # 若需禁用 QUIC 请取消注释 QUIC 两条规则
+  # 防止 YouTube 等使用 QUIC 导致速度不佳, 禁用 443 端口 UDP 流量（不包括国内）
 
-# - AND,(AND,(DST-PORT,443),(NETWORK,UDP)),(NOT,((GEOSITE,cn))),REJECT # 快
-  - 规则制定、AWAvenue广告、广告拦截
+# - AND,(AND,(DST-PORT,443),(NETWORK,UDP)),(NOT,((GEOSITE,cn))),REJECT # quic
+  - RULE-SET,AWAvenue-Ads,广告拦截
 # - GEOSITE,biliintl,哔哩东南亚
-#-GEOSITE，bilibili，哔哩哔哩
+# - GEOSITE,bilibili,哔哩哔哩
 
-  - GEOSITE、openai、OpenAI
-  -地质矿，苹果，苹果
-  - GEOSITE,apple-cn,苹果
-  - GEOSITE，ehentai，ehentai
-  - GEOSITE，github，Github
-  - GEOSITE，推特，推特
-  - GEOSITE、youtube、YouTube
-  - GEOSITE，谷歌，谷歌
+  - GEOSITE,openai,OpenAI
+  - GEOSITE,apple,Apple
+  - GEOSITE,apple-cn,Apple
+  - GEOSITE,ehentai,ehentai
+  - GEOSITE,github,Github
+  - GEOSITE,twitter,Twitter
+  - GEOSITE,youtube,YouTube
+  - GEOSITE,google,Google
   - GEOSITE,google-cn,Google # Google CN 不走代理会导致香港等地区节点 Play Store 异常
-  - GEOSITE，电报，电报
-  - GEOSITE、Netflix、NETFLIX
-  - GEOSITE，巴哈姆特，巴哈姆特
-  - GEOSITE、Spotify、Spotify
+  - GEOSITE,telegram,Telegram
+  - GEOSITE,netflix,NETFLIX
+  - GEOSITE,bahamut,巴哈姆特
+  - GEOSITE,spotify,Spotify
   - GEOSITE,pixiv,Pixiv
   - GEOSITE,steam@cn,DIRECT
-  -地质岩，蒸汽，蒸汽
-  - GEOSITE、onedrive、OneDrive
-  - GEOSITE、微软、微软服务
+  - GEOSITE,steam,Steam
+  - GEOSITE,onedrive,OneDrive
+  - GEOSITE,microsoft,微软服务
   - GEOSITE,geolocation-!cn,其他
-# - AND,(AND,(DST-PORT,443),(网络,UDP)),(NOT,((GEOIP,CN))),REJECT # 快
-  - GEOIP，谷歌，谷歌
-  - GEOIP、Netflix、NETFLIX
-  - GEOIP，电报，电报
-  - GEOIP，推特，推特
-  - GEOSITE，中国，国内，
-  - GEOIP，中国，国内，
-  # 绕道地址
-  - IP-CIDR，10.0.0.0/8，直接
-  - IP-CIDR，172.16.0.0/12，直接
-  - IP-CIDR，192.168.0.0/16，直接
-  - IP-CIDR，100.64.0.0/10，直接
-  - IP-CIDR，127.0.0.0/8，直接
-  -比赛，其他
+# - AND,(AND,(DST-PORT,443),(NETWORK,UDP)),(NOT,((GEOIP,CN))),REJECT # quic
+  - GEOIP,google,Google
+  - GEOIP,netflix,NETFLIX
+  - GEOIP,telegram,Telegram
+  - GEOIP,twitter,Twitter
+  - GEOSITE,CN,国内
+  - GEOIP,CN,国内
+  # 绕过局域网地址
+  - IP-CIDR,10.0.0.0/8,DIRECT
+  - IP-CIDR,172.16.0.0/12,DIRECT
+  - IP-CIDR,192.168.0.0/16,DIRECT
+  - IP-CIDR,100.64.0.0/10,DIRECT
+  - IP-CIDR,127.0.0.0/8,DIRECT
+  - MATCH,其他
